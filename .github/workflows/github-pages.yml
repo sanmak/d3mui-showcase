@@ -33,7 +33,7 @@ jobs:
         env:
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
 
-      - uses: actions/configure-pages@v4
+      - uses: actions/configure-pages@v5
         with:
           enablement: true
 
