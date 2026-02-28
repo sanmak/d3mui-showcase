@@ -26,7 +26,7 @@
   "author": "Sanket Makhija (https://github.com/sanmak)",
   "license": "MIT",
   "engines": {
-    "node": ">=18.0.0",
+    "node": ">=20.9.0",
     "npm": ">=9.0.0"
   },
   "scripts": {
