@@ -1,0 +1,70 @@
+{
+  "name": "d3mui-showcase",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A showcase of 60 interactive D3.js data visualizations built with Material-UI 5, Next.js 16, React 19, and TypeScript.",
+  "keywords": [
+    "d3js",
+    "d3",
+    "data-visualization",
+    "mui5",
+    "material-ui",
+    "nextjs",
+    "react",
+    "typescript",
+    "charts",
+    "interactive"
+  ],
+  "homepage": "https://sanmak.github.io/d3mui-showcase",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanmak/d3mui-showcase.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sanmak/d3mui-showcase/issues"
+  },
+  "author": "Sanket Makhija (https://github.com/sanmak)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md,css}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,json,md,css}\"",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^5.18.0",
+    "@mui/material": "^5.18.0",
+    "@types/d3": "^7.4.3",
+    "@types/d3-hexbin": "^0.2.5",
+    "@types/d3-sankey": "^0.12.5",
+    "d3": "^7.9.0",
+    "d3-hexbin": "^0.2.2",
+    "d3-sankey": "^0.12.3",
+    "next": "^16.1.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "@types/node": "^25.3.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.3",
+    "eslint-config-next": "^16.1.6",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.4.2",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,36 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '12:30'
+      timezone: 'UTC'
+    open-pull-requests-limit: 5
+    reviewers:
+      - 'sanmak'
+    assignees:
+      - 'sanmak'
+    labels:
+      - 'dependencies'
+      - 'npm'
+    commit-message:
+      prefix: 'chore(deps)'
+      prefix-development: 'chore(deps-dev)'
+      include: 'scope'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '12:30'
+      timezone: 'UTC'
+    reviewers:
+      - 'sanmak'
+    labels:
+      - 'ci/cd'
+      - 'github-actions'
+    commit-message:
+      prefix: 'ci'
