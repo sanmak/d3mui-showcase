@@ -12,10 +12,10 @@ All changes are confined to `app/page.tsx` — no new files, no new routes, no n
 function toSlug(title: string): string {
   return title
     .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')  // Remove special chars (parentheses, +, etc.)
-    .replace(/\s+/g, '-')           // Spaces to hyphens
-    .replace(/-+/g, '-')            // Collapse consecutive hyphens
-    .replace(/^-|-$/g, '');         // Trim leading/trailing hyphens
+    .replace(/[^a-z0-9\s-]/g, '') // Remove special chars (parentheses, +, etc.)
+    .replace(/\s+/g, '-') // Spaces to hyphens
+    .replace(/-+/g, '-') // Collapse consecutive hyphens
+    .replace(/^-|-$/g, ''); // Trim leading/trailing hyphens
 }
 ```
 
@@ -35,11 +35,13 @@ Defined as a module-level function (outside the component) since it's pure and s
 ### 1. ChartCard — Add anchor ID and link icon
 
 **Current signature:**
+
 ```typescript
 const ChartCard = ({ title, description, icon, children }: { ... })
 ```
 
 **New signature:**
+
 ```typescript
 const ChartCard = ({ title, description, icon, children, slug }: {
   title: string;
@@ -156,6 +158,7 @@ useEffect(() => {
 ## Import Changes
 
 Add to existing MUI imports:
+
 ```typescript
 import { ..., Snackbar, IconButton } from '@mui/material';
 import { ..., Link as LinkIcon } from '@mui/icons-material';
@@ -166,6 +169,7 @@ import { ..., Link as LinkIcon } from '@mui/icons-material';
 ### Link Icon — Hover Reveal
 
 On the heading flex container (both ChartCard and section):
+
 ```typescript
 sx={{
   display: 'flex',
@@ -181,6 +185,7 @@ sx={{
 ```
 
 On mobile (responsive), the icon should always be visible. Use MUI breakpoints:
+
 ```typescript
 '& .link-icon': {
   opacity: { xs: 0.5, md: 0 },
@@ -191,6 +196,7 @@ On mobile (responsive), the icon should always be visible. Use MUI breakpoints:
 ### Scroll Margin
 
 On anchor elements:
+
 ```typescript
 sx={{ scrollMarginTop: '80px' }}
 ```
@@ -252,8 +258,8 @@ page.tsx mount
 
 ## Files Modified
 
-| File | Change |
-|------|--------|
+| File           | Change                                                                                                                                   |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | `app/page.tsx` | Add `toSlug()`, modify `ChartCard`, modify section rendering, add scroll-on-load effect, add snackbar, add copy handler, add MUI imports |
 
 **No new files. No new dependencies. No new routes.**
