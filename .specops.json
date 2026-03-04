@@ -1,0 +1,15 @@
+{
+  "specsDir": ".specops",
+  "vertical": "frontend",
+  "conventions": {
+    "components": "React functional components with 'use client' directive",
+    "styling": "MUI v5 sx prop and theme system",
+    "state": "React useState/useEffect hooks",
+    "types": "TypeScript strict mode, interfaces in utils/mockData.ts",
+    "commits": "Conventional commits (feat, fix, docs, style, refactor, chore, ci)"
+  },
+  "review": {
+    "required": false,
+    "minApprovals": 1
+  }
+}

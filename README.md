@@ -23,6 +23,7 @@
 - [Available Visualizations](#available-visualizations)
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
+- [Spec-Driven Development](#spec-driven-development)
 - [Customization](#customization)
 - [Contributing](#contributing)
 - [License](#license)
@@ -196,6 +197,10 @@ d3mui-showcase/
 - **d3-sankey**: Sankey diagram plugin for D3
 - **d3-hexbin**: Hexagonal binning plugin for D3
 
+## Spec-Driven Development
+
+New features and enhancements are planned using [SpecOps](https://github.com/sanmak/specops) — a spec-driven development workflow that transforms ideas into structured specifications (requirements, design, tasks) before implementation. Feature specs are located in the `.specops/` directory.
+
 ## Customization
 
 ### Adding New Visualizations
@@ -236,3 +241,4 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 - [D3.js](https://d3js.org/) community for excellent documentation
 - [Material-UI](https://mui.com/) team for beautiful React components
 - [Next.js](https://nextjs.org/) team for the amazing framework
+- [SpecOps](https://github.com/sanmak/specops) for spec-driven development workflow
