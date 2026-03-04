@@ -13,8 +13,10 @@ import {
   Chip,
   Paper,
   Divider,
+  Snackbar,
+  IconButton,
 } from '@mui/material';
-import { Timeline, BubbleChart, AccountTree, Map } from '@mui/icons-material';
+import { Timeline, BubbleChart, AccountTree, Map, Link as LinkIcon } from '@mui/icons-material';
 
 import BarChart from '@/components/BarChart';
 import LineChart from '@/components/LineChart';
@@ -128,6 +130,15 @@ import {
   generateVoronoiData,
 } from '@/utils/mockData';
 
+function toSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '') // Remove special chars (parentheses, +, etc.)
+    .replace(/\s+/g, '-') // Spaces to hyphens
+    .replace(/-+/g, '-') // Collapse consecutive hyphens
+    .replace(/^-|-$/g, ''); // Trim leading/trailing hyphens
+}
+
 export default function Home() {
   const [barData, setBarData] = useState(generateBarChartData());
   const [lineData, setLineData] = useState(generateLineChartData());
@@ -207,33 +218,110 @@ export default function Home() {
     setLargeScatterData(generateLargeScatterData());
   }, []);
 
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const handleCopyLink = async (slug: string) => {
+    const url = `${window.location.origin}${window.location.pathname}#${slug}`;
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = url;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
+    setSnackbarOpen(true);
+  };
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (hash) {
+      // Delay slightly to ensure DOM is rendered (charts init async)
+      const timer = setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Add highlight animation
+          element.style.transition = 'box-shadow 0.3s ease';
+          element.style.boxShadow = '0 0 0 3px #1976d2';
+          setTimeout(() => {
+            element.style.boxShadow = '';
+          }, 2000);
+        }
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   const ChartCard = ({
     title,
     description,
     icon,
     children,
+    slug,
   }: {
     title: string;
     description: string;
     icon: React.ReactNode;
     children: React.ReactNode;
+    slug: string;
   }) => (
-    <Card sx={{ height: '100%' }}>
-      <CardContent>
-        <Box display="flex" alignItems="center" mb={2}>
-          {icon}
-          <Typography variant="h6" component="div" ml={1}>
-            {title}
+    <Box id={slug} sx={{ scrollMarginTop: '80px' }}>
+      <Card sx={{ height: '100%' }}>
+        <CardContent>
+          <Box
+            display="flex"
+            alignItems="center"
+            mb={2}
+            sx={{
+              '& .link-icon': {
+                opacity: { xs: 0.5, md: 0 },
+                transition: 'opacity 0.2s',
+              },
+              '&:hover .link-icon': {
+                opacity: 1,
+              },
+            }}
+          >
+            {icon}
+            <Typography
+              variant="h6"
+              component="div"
+              ml={1}
+              sx={{
+                cursor: 'pointer',
+                '&:hover': { textDecoration: 'underline' },
+              }}
+              onClick={() => {
+                window.location.hash = slug;
+              }}
+            >
+              {title}
+            </Typography>
+            <IconButton
+              className="link-icon"
+              size="small"
+              onClick={() => handleCopyLink(slug)}
+              sx={{ ml: 1 }}
+              aria-label={`Copy link to ${title}`}
+            >
+              <LinkIcon fontSize="small" />
+            </IconButton>
+          </Box>
+          <Typography variant="body2" color="text.secondary" mb={2}>
+            {description}
           </Typography>
-        </Box>
-        <Typography variant="body2" color="text.secondary" mb={2}>
-          {description}
-        </Typography>
-        <Box display="flex" justifyContent="center" sx={{ overflowX: 'auto' }}>
-          {children}
-        </Box>
-      </CardContent>
-    </Card>
+          <Box display="flex" justifyContent="center" sx={{ overflowX: 'auto' }}>
+            {children}
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
   );
 
   type GridConfig = {
@@ -782,42 +870,78 @@ export default function Home() {
           </Typography>
         </Paper>
 
-        {sections.map((section) => (
-          <Box key={section.title}>
-            {section.dividerBefore && <Divider sx={{ my: 6 }} />}
-            <Box mb={6}>
-              <Box display="flex" alignItems="center" mb={3}>
-                {section.headerIcon}
-                <Typography variant="h4" component="h2">
-                  {section.title}
-                </Typography>
-              </Box>
-              <Typography variant="body1" color="text.secondary" mb={3}>
-                {section.description}
-              </Typography>
-
-              <Grid container spacing={3}>
-                {section.charts.map((chart) => (
-                  <Grid
-                    key={chart.title}
-                    item
-                    xs={chart.grid.xs}
-                    md={chart.grid.md}
-                    lg={chart.grid.lg}
+        {sections.map((section) => {
+          const sectionSlug = toSlug(section.title);
+          return (
+            <Box key={section.title} id={sectionSlug} sx={{ scrollMarginTop: '80px' }}>
+              {section.dividerBefore && <Divider sx={{ my: 6 }} />}
+              <Box mb={6}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  mb={3}
+                  sx={{
+                    '& .link-icon': {
+                      opacity: { xs: 0.5, md: 0 },
+                      transition: 'opacity 0.2s',
+                    },
+                    '&:hover .link-icon': {
+                      opacity: 1,
+                    },
+                  }}
+                >
+                  {section.headerIcon}
+                  <Typography
+                    variant="h4"
+                    component="h2"
+                    sx={{
+                      cursor: 'pointer',
+                      '&:hover': { textDecoration: 'underline' },
+                    }}
+                    onClick={() => {
+                      window.location.hash = sectionSlug;
+                    }}
                   >
-                    <ChartCard
-                      title={chart.title}
-                      description={chart.description}
-                      icon={chart.icon}
+                    {section.title}
+                  </Typography>
+                  <IconButton
+                    className="link-icon"
+                    size="small"
+                    onClick={() => handleCopyLink(sectionSlug)}
+                    sx={{ ml: 1 }}
+                    aria-label={`Copy link to ${section.title}`}
+                  >
+                    <LinkIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+                <Typography variant="body1" color="text.secondary" mb={3}>
+                  {section.description}
+                </Typography>
+
+                <Grid container spacing={3}>
+                  {section.charts.map((chart) => (
+                    <Grid
+                      key={chart.title}
+                      item
+                      xs={chart.grid.xs}
+                      md={chart.grid.md}
+                      lg={chart.grid.lg}
                     >
-                      {chart.content}
-                    </ChartCard>
-                  </Grid>
-                ))}
-              </Grid>
+                      <ChartCard
+                        title={chart.title}
+                        description={chart.description}
+                        icon={chart.icon}
+                        slug={toSlug(chart.title)}
+                      >
+                        {chart.content}
+                      </ChartCard>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
             </Box>
-          </Box>
-        ))}
+          );
+        })}
 
         <Paper elevation={2} sx={{ p: 3, mt: 6, bgcolor: 'grey.100' }}>
           <Typography variant="h6" gutterBottom>
@@ -846,6 +970,14 @@ export default function Home() {
           </Box>
         </Paper>
       </Container>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={2000}
+        onClose={() => setSnackbarOpen(false)}
+        message="Link copied to clipboard!"
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      />
     </>
   );
 }
