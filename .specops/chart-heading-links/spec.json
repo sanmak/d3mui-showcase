@@ -1,0 +1,14 @@
+{
+  "id": "chart-heading-links",
+  "type": "feature",
+  "status": "draft",
+  "version": "1.0.0",
+  "author": {
+    "name": "Claude",
+    "email": "noreply@anthropic.com"
+  },
+  "created": "2026-03-04",
+  "updated": "2026-03-04",
+  "title": "Chart Heading Shareable Links",
+  "description": "Add shareable anchor links to every chart heading across all 60 visualizations, enabling deep linking and bookmarkable navigation."
+}
